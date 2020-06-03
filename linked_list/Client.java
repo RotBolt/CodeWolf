@@ -22,6 +22,24 @@ public class Client {
         list.addAt(2, 7);
         list.display();
 
+        list.removeFirst();
+        list.display();
+
+        list.removeLast();
+        list.display();
+
+        list.removeAt(3);
+        list.display();
+        System.out.println("List size "+list.getSize());
+
+        list.reverseDataIteratively();
+        list.display();
+
+        list.reversePointerIteratively();
+        list.display();
+
+        list.reversePointerRecursively();
+        list.display();
 
     }
     
