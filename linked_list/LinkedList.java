@@ -194,6 +194,7 @@ public class LinkedList {
         System.out.print(node.data+"->");
     }
 
+    // o(n^2)
     public void reverseDataIteratively() throws Exception{
         int left = 0;
         int right = this.size -1;
@@ -210,6 +211,31 @@ public class LinkedList {
         }
     }
 
+    private class HeapMover{
+        Node node;
+    }
+
+    // o(n)
+    public void reverseDataRecursively(){
+        HeapMover left = new HeapMover();
+        left.node = head;
+        reverseDataRecursiveHelper(left, head, 0);
+    }
+
+    private void reverseDataRecursiveHelper(HeapMover left, Node right, int floor){
+        if(right == null){
+            return;
+        }
+        reverseDataRecursiveHelper(left, right.next, floor + 1);
+        if(floor >= size/2){
+            int data = right.data;
+            right.data = left.node.data;
+            left.node.data = data;
+            left.node = left.node.next; 
+        }
+    }
+
+    // o(n)
     public void reversePointerIteratively(){
         Node prev = head;
         Node curr = head.next;
@@ -229,6 +255,7 @@ public class LinkedList {
     }
 
 
+    // o(n)
     public void reversePointerRecursively(){
         reversePointerRecursiveHelper(head);
         Node temp = head;
@@ -243,6 +270,70 @@ public class LinkedList {
         }
         reversePointerRecursiveHelper(node.next);
         node.next.next = node;
+    }
+
+    //o(n)
+    public boolean isPallindromic() {
+        HeapMover left = new HeapMover();
+        left.node = head;
+        return isPallindromicHelper(left, head, 0);
+    }
+
+    private boolean isPallindromicHelper(HeapMover left, Node right,int floor){
+        if(right == null){
+            return true;
+        }
+        boolean result = isPallindromicHelper(left, right.next, floor+1);
+        if(result){
+            if(left.node.data == right.data){
+                left.node = left.node.next;
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public void fold(){
+        HeapMover left = new HeapMover();
+        left.node = head;
+        foldHelper(left,head,0);
+    }
+
+    private void foldHelper(HeapMover left, Node right, int floor){
+        if(right == null){
+            return;
+        }
+        foldHelper(left, right.next, floor+1);
+        if(floor > size/2){
+            Node origNext = left.node.next;
+        
+            left.node.next = right;
+            right.next = origNext;
+
+            left.node = origNext;
+        }
+
+        if(floor == this.size/2){
+            this.tail = right;
+            this.tail.next = null;
+        }
+    }
+
+    public int kthNodeFromLast(int k){
+        Node slow = head;
+        Node fast = head;
+        for(int i=0;i<k;i++){
+            fast = fast.next;
+        }
+
+        while(fast != null){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow.data;
     }
 
     // o(1)

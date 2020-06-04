@@ -41,6 +41,22 @@ public class Client {
         list.reversePointerRecursively();
         list.display();
 
+        System.out.println(list.isPallindromic());
+
+        LinkedList pallin = new LinkedList();
+        pallin.addLast(1);
+        pallin.addLast(2);
+        pallin.addLast(3);
+        pallin.addLast(2);
+        pallin.addLast(1);
+        System.out.println(pallin.isPallindromic());
+
+        list.removeLast();
+        list.fold();
+        list.display();
+
+        System.out.println(list.kthNodeFromLast(3));
+
     }
     
 }
