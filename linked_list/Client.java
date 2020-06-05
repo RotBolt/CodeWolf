@@ -57,6 +57,16 @@ public class Client {
 
         System.out.println(list.kthNodeFromLast(3));
 
+        System.out.println(list.getMidNodeData());
+
+        list.kReverse(2);
+        list.display();
+
+        list.convertToOddEvenList();
+        list.display();
+
+        LinkedList sorted = LinkedList.mergeSort(list);
+        sorted.display();
     }
     
 }

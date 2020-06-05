@@ -7,8 +7,8 @@ public class LinkedList {
         Node next;
     }
 
-    private Node head;
-    private Node tail;
+    Node head;
+    Node tail;
     private int size;
 
     public int getSize() {
@@ -19,7 +19,7 @@ public class LinkedList {
         return this.size == 0;
     }
 
-    //o(1)
+    // o(1)
     public void addLast(int data) {
         if (isEmpty()) {
             handleFirstAddition(data);
@@ -147,13 +147,13 @@ public class LinkedList {
         }
     }
 
-    //o(n)
+    // o(n)
     public int removeAt(int index) throws Exception {
         if (isEmpty()) {
-            throw new Exception("List is empty"); 
-        } else if(index <0 || index >=size){
+            throw new Exception("List is empty");
+        } else if (index < 0 || index >= size) {
             throw new Exception("Index out of bounds");
-        }else if (this.size == 1) {
+        } else if (this.size == 1) {
             return handleRemovalWhenSize1();
         } else if (index == 0) {
             return removeFirst();
@@ -165,7 +165,7 @@ public class LinkedList {
             Node nodeToRm = prevNode.next;
             prevNode.next = nodeToRm.next;
             nodeToRm.next = null;
-            size --;
+            size--;
             return data;
         }
     }
@@ -181,24 +181,24 @@ public class LinkedList {
 
     }
 
-    public void displayReverse(){
+    public void displayReverse() {
         displayReverseHelper(this.head);
         System.out.println("END");
     }
 
-    private void displayReverseHelper(Node node){
-        if(node == null){
+    private void displayReverseHelper(Node node) {
+        if (node == null) {
             return;
         }
         displayReverseHelper(node.next);
-        System.out.print(node.data+"->");
+        System.out.print(node.data + "->");
     }
 
     // o(n^2)
-    public void reverseDataIteratively() throws Exception{
+    public void reverseDataIteratively() throws Exception {
         int left = 0;
-        int right = this.size -1;
-        while(left < right){
+        int right = this.size - 1;
+        while (left < right) {
             Node n = getNodeAt(left);
             Node p = getNodeAt(right);
 
@@ -211,35 +211,35 @@ public class LinkedList {
         }
     }
 
-    private class HeapMover{
+    private class HeapMover {
         Node node;
     }
 
     // o(n)
-    public void reverseDataRecursively(){
+    public void reverseDataRecursively() {
         HeapMover left = new HeapMover();
         left.node = head;
         reverseDataRecursiveHelper(left, head, 0);
     }
 
-    private void reverseDataRecursiveHelper(HeapMover left, Node right, int floor){
-        if(right == null){
+    private void reverseDataRecursiveHelper(HeapMover left, Node right, int floor) {
+        if (right == null) {
             return;
         }
         reverseDataRecursiveHelper(left, right.next, floor + 1);
-        if(floor >= size/2){
+        if (floor >= size / 2) {
             int data = right.data;
             right.data = left.node.data;
             left.node.data = data;
-            left.node = left.node.next; 
+            left.node = left.node.next;
         }
     }
 
     // o(n)
-    public void reversePointerIteratively(){
+    public void reversePointerIteratively() {
         Node prev = head;
         Node curr = head.next;
-        while(curr != null){
+        while (curr != null) {
             Node next = curr.next;
 
             curr.next = prev;
@@ -251,89 +251,228 @@ public class LinkedList {
         Node temp = head;
         head = tail;
         tail = temp;
-        tail.next=null;
+        tail.next = null;
     }
 
-
     // o(n)
-    public void reversePointerRecursively(){
+    public void reversePointerRecursively() {
         reversePointerRecursiveHelper(head);
         Node temp = head;
         head = tail;
         tail = temp;
-        tail.next=null;
+        tail.next = null;
     }
 
-    private void reversePointerRecursiveHelper(Node node){
-        if(node == tail){
+    private void reversePointerRecursiveHelper(Node node) {
+        if (node == tail) {
             return;
         }
         reversePointerRecursiveHelper(node.next);
         node.next.next = node;
     }
 
-    //o(n)
+    // o(n)
     public boolean isPallindromic() {
         HeapMover left = new HeapMover();
         left.node = head;
         return isPallindromicHelper(left, head, 0);
     }
 
-    private boolean isPallindromicHelper(HeapMover left, Node right,int floor){
-        if(right == null){
+    private boolean isPallindromicHelper(HeapMover left, Node right, int floor) {
+        if (right == null) {
             return true;
         }
-        boolean result = isPallindromicHelper(left, right.next, floor+1);
-        if(result){
-            if(left.node.data == right.data){
+        boolean result = isPallindromicHelper(left, right.next, floor + 1);
+        if (result) {
+            if (left.node.data == right.data) {
                 left.node = left.node.next;
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
 
-    public void fold(){
+    public void fold() {
         HeapMover left = new HeapMover();
         left.node = head;
-        foldHelper(left,head,0);
+        foldHelper(left, head, 0);
     }
 
-    private void foldHelper(HeapMover left, Node right, int floor){
-        if(right == null){
+    private void foldHelper(HeapMover left, Node right, int floor) {
+        if (right == null) {
             return;
         }
-        foldHelper(left, right.next, floor+1);
-        if(floor > size/2){
+        foldHelper(left, right.next, floor + 1);
+        if (floor > size / 2) {
             Node origNext = left.node.next;
-        
+
             left.node.next = right;
             right.next = origNext;
 
             left.node = origNext;
         }
 
-        if(floor == this.size/2){
+        if (floor == this.size / 2) {
             this.tail = right;
             this.tail.next = null;
         }
     }
 
-    public int kthNodeFromLast(int k){
+    public int kthNodeFromLast(int k) {
         Node slow = head;
         Node fast = head;
-        for(int i=0;i<k;i++){
+        for (int i = 0; i < k; i++) {
             fast = fast.next;
         }
 
-        while(fast != null){
+        while (fast != null) {
             slow = slow.next;
             fast = fast.next;
         }
         return slow.data;
+    }
+
+    public int getMidNodeData() {
+        Node fast = head;
+        Node slow = head;
+        while (fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow.data;
+    }
+
+    private Node getMidNode() {
+        Node fast = head;
+        Node slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    public static LinkedList mergeSort(LinkedList list) {
+        if (list.size == 1) {
+            return list;
+        }
+        Node mid = list.getMidNode();
+
+        LinkedList fh = new LinkedList();
+        fh.head = list.head;
+        fh.tail = mid;
+        fh.size = (list.size + 1) / 2;
+
+        LinkedList sh = new LinkedList();
+        sh.head = mid.next;
+        sh.tail = list.tail;
+        sh.size = list.size / 2;
+
+        mid.next = null;
+
+        fh = LinkedList.mergeSort(fh);
+        sh = LinkedList.mergeSort(sh);
+
+        LinkedList res = LinkedList.merge(fh, sh);
+        return res;
+    }
+
+    public static LinkedList merge(LinkedList first, LinkedList other) {
+        LinkedList res = new LinkedList();
+
+        Node one = first.head;
+        Node second = other.head;
+
+        while (one != null && second != null) {
+            if (one.data < second.data) {
+                res.addLast(one.data);
+                one = one.next;
+            } else {
+                res.addLast(second.data);
+                second = second.next;
+            }
+        }
+
+        while (one != null) {
+            res.addLast(one.data);
+            one = one.next;
+        }
+
+        while (second != null) {
+            res.addLast(second.data);
+            second = second.next;
+        }
+
+        return res;
+    }
+
+    public void kReverse(int k) throws Exception {
+        LinkedList newList = new LinkedList();
+        LinkedList temp = new LinkedList();
+
+        while (!this.isEmpty()) {
+            for (int i = 0; i < k; i++) {
+                int data = this.removeFirst();
+                temp.addFirst(data);
+                if (this.isEmpty()) {
+                    break;
+                }
+            }
+
+            if (newList.isEmpty()) {
+                newList = temp;
+                temp = new LinkedList();
+            } else {
+                newList.tail.next = temp.head;
+                newList.tail = temp.tail;
+                newList.size += temp.size;
+
+                temp = new LinkedList();
+            }
+
+        }
+
+        this.head = newList.head;
+        this.tail = newList.tail;
+        this.size = newList.size;
+    }
+
+    public void convertToOddEvenList() throws Exception {
+        LinkedList odd = new LinkedList();
+        LinkedList even = new LinkedList();
+
+        while (!this.isEmpty()) {
+            int data = this.removeFirst();
+            if (data % 2 == 0) {
+                even.addLast(data);
+            } else {
+                odd.addLast(data);
+            }
+        }
+
+        odd.tail.next = even.head;
+        odd.tail = even.tail;
+        odd.size += even.size;
+
+        this.head = odd.head;
+        this.tail = odd.tail;
+        this.size = odd.size;
+    }
+
+    public void removeDuplicates() throws Exception {
+        LinkedList res = new LinkedList();
+        while (!this.isEmpty()) {
+            int data = this.removeFirst();
+            if (data != res.tail.data || res.isEmpty()) {
+                res.addLast(data);
+            }
+        }
+        this.head = res.head;
+        this.tail = res.tail;
+        this.size = res.size;
     }
 
     // o(1)
