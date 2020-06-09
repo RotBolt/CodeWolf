@@ -6,9 +6,25 @@ public class Client {
     public static void main(String[] args) {
         GenericTree tree = new GenericTree();
         tree.display();
-        System.out.println("Size "+tree.size());
+        System.out.println("Size " + tree.size());
 
-        System.out.println("Calc Size "+tree.calculateSize());
+        System.out.println("Calc Size " + tree.calculateSize());
+
+        System.out.println("Max Node Data " + tree.getMaxNodeData());
+
+        System.out.println("Element 120 exists ? " + tree.isElementExists(120));
+
+        System.out.println("Element 56 exists ? " + tree.isElementExists(56));
+
+        System.out.println("Height of tree " + tree.height());
+
+        tree.preOrder();
+
+        tree.postOrder();
+
+        tree.levelOrder();
+
+        tree.levelOrderLW();
     }
-    
+
 }
