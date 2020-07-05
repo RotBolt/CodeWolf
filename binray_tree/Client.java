@@ -5,8 +5,7 @@ import java.util.Queue;
 
 public class Client {
 
-    // 50 true 25 true 12 false true 20 false false true 37 true 30 false false
-    // false true 75 true 62 false false true 87 false false
+    // 50 true 25 true 12 false true 20 false false true 37 true 30 false false false true 75 true 62 false false true 87 false false
     public static void main(final String[] args) {
         final BinaryTree tree = new BinaryTree();
         System.out.println(tree.getSize());
@@ -30,6 +29,18 @@ public class Client {
         tree.levelOrderLW();
 
         // printBinaries(15);
+
+        tree.preOrderIterative();
+
+        tree.printSingleChild();
+
+        // tree.display();
+
+        // tree.removeLeaves();
+
+        // tree.display();
+
+        System.out.println(tree.rootToPath(30));;
     }
 
     private static class Pair {
