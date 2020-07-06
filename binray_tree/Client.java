@@ -5,9 +5,19 @@ import java.util.Queue;
 
 public class Client {
 
-    // 50 true 25 true 12 false true 20 false false true 37 true 30 false false false true 75 true 62 false false true 87 false false
+    // 50 true 25 true 12 false true 20 false false true 37 true 30 false false
+    // false true 75 true 62 false false true 87 false false
     public static void main(final String[] args) {
-        final BinaryTree tree = new BinaryTree();
+        // final BinaryTree tree = new BinaryTree();
+
+        int[] pre = { 50, 25, 12, 20, 37, 30, 75, 62, 87 };
+        int[] ino = { 12, 20, 21, 22, 25, 30, 31, 32, 37, 50, 62, 75, 87 };
+        int[] posto = { 22, 21, 20, 12, 32, 31, 30, 37, 25, 62, 87, 75, 50 };
+
+        // BinaryTree tree = new BinaryTree(pre, ino);
+
+        BinaryTree tree = new BinaryTree(posto, ino);
+
         System.out.println(tree.getSize());
 
         tree.display();
@@ -40,7 +50,31 @@ public class Client {
 
         // tree.display();
 
-        System.out.println(tree.rootToPath(30));;
+        System.out.println(tree.rootToPath(30));
+
+        tree.printKFarNodes(25, 3);
+
+        tree.printRootToPathTarget(160);
+
+        System.out.println("Diameter " + tree.diameter());
+        System.out.println("Diameter eff " + tree.diameterEff());
+
+        // ans = false , remove 60 to make it balanced
+        int[] post = { 40, 20, 60, 50, 30, 10 };
+        int[] in = { 40, 20, 10, 30, 50, 60 };
+
+        BinaryTree tree2 = new BinaryTree(post, in);
+
+        System.out.println("is Balanced " + tree2.isBalanced());
+
+        // ans = false , remove 51 to make is BST
+        int[] post2 = { 12, 51, 37, 25, 62, 87, 75, 50 };
+        int[] in2 = { 12, 25, 37, 51, 50, 62, 75, 87 };
+
+        BinaryTree tree3 = new BinaryTree(post2, in2);
+        System.out.println(tree3.isBST());
+
+        tree3.largestBST();
     }
 
     private static class Pair {
