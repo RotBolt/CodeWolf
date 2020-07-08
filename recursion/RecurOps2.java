@@ -3,121 +3,92 @@ package recursion;
 public class RecurOps2 {
 
     public static void main(String[] args) {
-        // printBoardPath(10, 0, "");
-        // printBoardPathOneSixOpen(10, 0, "");
-        // int[] ladders = new int[16];
-        // ladders[2] = 13;
-        // ladders[3] = 11;
-        // ladders[5] = 7;
-        // printBoardPathOneSixOpenLadder(ladders.length - 1, 0, "", ladders);
+        // int[] arr = { 10, 20, 30, 40, 60, 70 };
+        // printTargetSumSubSets(arr, 70, 0, 0, "");
 
-        int[] snl = new int[21];
-        snl[3] = 17;
-        snl[7] = 11;
-        snl[13] = 5;
-        snl[19] = 2;
-
-        int[] moves1 = { 2, 5, 3, 4, 6, 3, 4, 3, 5, 1, 2, 3 };
-        int[] moves2 = { 2, 5, 3, 4, 6, 3, 4, 3, 5, 1, 1, 6, 5, 2, 3, 5 };
-        printBoardPathOneSixOpenWithSNL(0, 20, snl, moves1, 0);
-        printBoardPathOneSixOpenWithSNL(0, 20, snl, moves2, 0);
+        // printPermutations("abc", "");
+        // printPermutationsSB(new StringBuilder("abc"), new StringBuilder());
+        // printPermutations2("abc", "");
+        printPermutations2SB(new StringBuilder("abc"), new StringBuilder());
     }
 
-    static int count = 0;
+    public static void printTargetSumSubSets(int[] arr, int tar, int vidx, int setSum, String set) {
 
-    public static void printBoardPath(int boardSize, int ssf, String psf) {
-        if (ssf == boardSize) {
-            count++;
-            System.out.println(psf + " : count " + count);
-            return;
-        }
-        // reactive style, negative base case
-        if (ssf > boardSize) {
-            return;
-        }
-
-        // for pro active check before making call
-        for (int i = 1; i <= 6; i++) {
-            printBoardPath(boardSize, ssf + i, psf + i);
-        }
-    }
-
-    public static void printBoardPathOneSixOpen(int boardSize, int ssf, String psf) {
-        if (ssf == boardSize) {
-            count++;
-            System.out.println(psf + " : count " + count);
-            return;
-        }
-        // reactive style, negative base case
-        if (ssf > boardSize) {
-            return;
-        }
-
-        // for pro active check before making call
-        if (ssf == 0) {
-            printBoardPathOneSixOpen(boardSize, ssf + 1, psf + 1);
-            printBoardPathOneSixOpen(boardSize, ssf + 1, psf + 6);
-        } else {
-            for (int i = 1; i <= 6; i++) {
-                printBoardPathOneSixOpen(boardSize, ssf + i, psf + i);
+        if (vidx == arr.length) {
+            if (setSum == tar) {
+                System.out.println(set);
             }
+            return;
         }
+
+        printTargetSumSubSets(arr, tar, vidx + 1, setSum, set);
+        printTargetSumSubSets(arr, tar, vidx + 1, setSum + arr[vidx], set + " " + arr[vidx]);
     }
 
-    public static void printBoardPathOneSixOpenLadder(int boardSize, int ssf, String psf, int[] ladders) {
-        if (ssf == boardSize) {
-            count++;
-            System.out.println(psf + " : count " + count);
-            return;
-        }
-        // reactive style, negative base case
-        if (ssf > boardSize) {
+    public static void printPermutations(String str, String asf) {
+
+        if (str.isEmpty()) {
+            System.out.println(asf);
             return;
         }
 
-        // for pro active check before making call
-        if (ssf == 0) {
-            printBoardPathOneSixOpenLadder(boardSize, ssf + 1, psf + 1, ladders);
-            printBoardPathOneSixOpenLadder(boardSize, ssf + 1, psf + 6, ladders);
-        } else if (ladders[ssf] != 0) {
-            printBoardPathOneSixOpenLadder(boardSize, ladders[ssf], psf + "[" + ssf + "->" + ladders[ssf] + "]",
-                    ladders);
-        } else {
-            for (int i = 1; i <= 6; i++) {
-                printBoardPathOneSixOpenLadder(boardSize, ssf + i, psf + i, ladders);
-            }
+        for (int i = 0; i < str.length(); i++) {
+            String left = str.substring(0, i);
+            String right = str.substring(i + 1);
+            printPermutations(left + right, asf + str.charAt(i));
         }
+
     }
 
-    public static void printBoardPathOneSixOpenWithSNL(int src, int dest, int[] snl, int[] moves, int mvi) {
+    public static void printPermutationsSB(StringBuilder str, StringBuilder asf) {
 
-        if (src == dest) {
-            System.out.println("Win");
+        if (str.length() == 0) {
+            System.out.println(asf);
             return;
         }
 
-        if (mvi == moves.length) {
-            System.out.println("Lose : " + src);
-            return;
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            str.deleteCharAt(i);
+            asf.append(ch);
+            printPermutationsSB(str, asf);
+            asf.deleteCharAt(asf.length() - 1);
+            str.insert(i, ch);
         }
 
-        if (src == 0) {
-            if (moves[mvi] == 1 || moves[mvi] == 6) {
-                printBoardPathOneSixOpenWithSNL(1, dest, snl, moves, mvi + 1);
-            } else {
-                printBoardPathOneSixOpenWithSNL(src, dest, snl, moves, mvi + 1);
-            }
-        } else {
-            if (snl[src] != 0) {
-                printBoardPathOneSixOpenWithSNL(snl[src], dest, snl, moves, mvi);
-            } else {
-                if (src + moves[mvi] <= dest) {
-                    printBoardPathOneSixOpenWithSNL(src + moves[mvi], dest, snl, moves, mvi + 1);
-                } else {
-                    printBoardPathOneSixOpenWithSNL(src, dest, snl, moves, mvi + 1);
-                }
-            }
-        }
     }
 
+    public static void printPermutations2(String str, String asf) {
+
+        if (str.length() == 0) {
+            System.out.println(asf);
+            return;
+        }
+
+        char ch = str.charAt(0);
+        String ros = str.substring(1);
+        for (int i = 0; i <= asf.length(); i++) {
+            String left = asf.substring(0, i);
+            String right = asf.substring(i);
+            printPermutations2(ros, left + ch + right);
+        }
+
+    }
+
+    public static void printPermutations2SB(StringBuilder str, StringBuilder asf) {
+
+        if (str.length() == 0) {
+            System.out.println(asf);
+            return;
+        }
+
+        char ch = str.charAt(0);
+        str.deleteCharAt(0);
+        for (int i = 0; i <= asf.length(); i++) {
+            asf.insert(i, ch);
+            printPermutations2SB(str, asf);
+            asf.deleteCharAt(i);
+        }
+        str.insert(0, ch);
+    }
 }
