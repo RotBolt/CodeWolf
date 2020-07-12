@@ -57,6 +57,7 @@ public class NQueens {
         }
     }
 
+    // boardNo = row*board.length+col
     public static void nQueens(boolean[][] board, int qpsf, String asf, int lqbp) {
         if (qpsf == board.length) {
             count++;
