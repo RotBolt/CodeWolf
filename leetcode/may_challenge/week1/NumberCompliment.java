@@ -1,4 +1,4 @@
-package leetcode.may_challenge;
+package leetcode.may_challenge.week1;
 
 public class NumberCompliment {
     public static void main(String[] args) {
