@@ -14,7 +14,7 @@ public class CountSubSquares {
         }
 
         // row to check
-        // col ti check
+        // col to check
         int rtc = matrix.length - 2;
         int ctc = matrix[0].length - 2;
         for (int i = rtc; i >= 0; i--) {
