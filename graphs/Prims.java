@@ -20,12 +20,12 @@ public class Prims {
 
     public class Pair implements Comparable<Pair> {
         int vtx;
-        int p;
+        int parent;
         int wt;
 
         public Pair(int vtx, int p, int wt) {
             this.vtx = vtx;
-            this.p = p;
+            this.parent = p;
             this.wt = wt;
         }
 
@@ -45,11 +45,14 @@ public class Prims {
             Pair rem = pq.poll();
             if (!visited[rem.vtx]) {
                 visited[rem.vtx] = true;
-                if (rem.p != -1) {
-                    System.out.println(rem.vtx + "-" + rem.p + "@" + rem.wt);
+                // only for this pseudo parent , we are not priting/doing work
+                if (rem.parent != -1) {
+                    System.out.println(rem.vtx + "-" + rem.parent + "@" + rem.wt);
                 }
                 for (Edge e : graph[rem.vtx]) {
                     if (!visited[e.nbr]) {
+                        // we are not adding weights here to previous one. (Comapre Djiktras)
+                        // also not adding to path so far. Only parent is being passed.
                         pq.add(new Pair(e.nbr, e.src, e.weight));
                     }
                 }
